@@ -5,10 +5,10 @@ async function getStreamFromURL(url) {
   return response.data;
 }
 
-async function fetchanimeVideos(query) {
+async function fetchLyricVideos(query) {
   try {
     const response = await axios.get(
-      https://anime-search-neon.vercel.app/kshitiz?keyword=${encodeURIComponent(query)}
+      https://Anime-search-neon.vercel.app/kshitiz?keyword=${encodeURIComponent(query)}
     );
     return response.data;
   } catch (error) {
@@ -19,16 +19,16 @@ async function fetchanimeVideos(query) {
 
 module.exports = {
   config: {
-    name: "anime",
-    aliases: ["animeedit", "animevdo", "anime"],
+    name: "lyric",
+    aliases: ["animedit", "animevideo", "editanime"],
     author: "Alim",
     version: "1.3",
     role: 0,
     shortDescription: {
-      en: "Get anime edit videos (fallback supported)",
+      en: "Get lyric edit videos (fallback supported)",
     },
     longDescription: {
-      en: "Fetches short anime edit videos. If no match found, sends a random anime edit video under 1 minute.",
+      en: "Fetches short lyric edit videos. If no match found, sends a random lyric edit video under 1 minute.",
     },
     category: "media",
     guide: {
@@ -37,20 +37,20 @@ module.exports = {
   },
 
   onStart: async function ({ api, event, args }) {
-    const query = args.join(" ") || "anime edit";
+    const query = args.join(" ") || "lyric edit";
     api.setMessageReaction("🎧", event.messageID, () => {}, true);
 
-    const videos = await fetchanimeVideos(query);
+    const videos = await fetchLyricVideos(query);
 
     if (!videos || videos.length === 0) {
       return api.sendMessage(❌ Couldn't fetch videos. Try again later., event.threadID, event.messageID);
     }
 
-    // Filter anime edit under 60s
+    // Filter lyric edit under 60s
     const isValidEdit = v => {
       const title = v.title?.toLowerCase() || "";
       const desc = v.description?.toLowerCase() || "";
-      const match = /anime\s*edit|anime\s*edit|edit|aesthetic/i;
+      const match = /lyric\s*edit|lyrics\s*edit|edit|aesthetic/i;
       return match.test(title) || match.test(desc);
     };
 
